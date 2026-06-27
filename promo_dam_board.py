@@ -15,7 +15,7 @@ API_KEY  = os.environ.get("HRFCO_KEY", "여기에_발급받은_인증키")
 DAM_CODE = os.environ.get("DAM_CODE", "1015310")          # 청평댐 (확인 완료)
 BG_PATH  = os.environ.get("BG_PATH", "프로모션.png")       # 배경(스크립트와 같은 폴더)
 OUT_PATH = os.environ.get("OUT_PATH", "board.png")
-BASE     = "http://api.hrfco.go.kr"
+BASE     = "https://api.hrfco.go.kr"
 
 # 색 (이미지 팔레트)
 NAVY=(27,58,95); GREEN=(30,86,49); BLUE=(40,86,224); MAROON=(158,59,48)
