@@ -42,11 +42,24 @@ def F(p,s): return ImageFont.truetype(p,s)
 
 # ── 데이터 ────────────────────────────────────────────
 def fetch():
+    import time
     now = datetime.now()
     sdt = (now - timedelta(hours=24)).strftime("%Y%m%d%H%M")
     edt = now.strftime("%Y%m%d%H%M")
     url = f"{BASE}/{API_KEY}/dam/list/10M/{DAM_CODE}/{sdt}/{edt}.json"
-    rows = requests.get(url, timeout=20).json().get("content", [])
+    headers = {"User-Agent": "Mozilla/5.0"}
+    last_err = None
+    for attempt in range(5):                       # 최대 5번까지 다시 시도
+        try:
+            resp = requests.get(url, timeout=60, headers=headers)   # 60초까지 기다림
+            rows = resp.json().get("content", [])
+            break
+        except Exception as e:
+            last_err = e
+            print(f"시도 {attempt+1} 실패: {e} — 10초 후 재시도")
+            time.sleep(10)
+    else:
+        raise SystemExit(f"5번 시도 모두 실패. 마지막 오류: {last_err}")
     out = []
     for r in rows:
         try:
